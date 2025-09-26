@@ -468,12 +468,27 @@ class _SettingsScreenState extends State<SettingsScreen> with TickerProviderStat
   Future<void> _importData(BuildContext context) async {
     try {
       FilePickerResult? result = await FilePicker.platform.pickFiles(
-        type: FileType.custom,
-        allowedExtensions: ['json'],
+        type: FileType.any,
+        allowMultiple: false,
       );
 
       if (result != null) {
         File file = File(result.files.single.path!);
+        
+        // Validate file extension
+        String fileName = result.files.single.name;
+        if (!fileName.toLowerCase().endsWith('.json')) {
+          if (mounted) {
+            ScaffoldMessenger.of(context).showSnackBar(
+              const SnackBar(
+                content: Text('โปรดเลือกไฟล์ JSON เท่านั้น (.json)'),
+                backgroundColor: Colors.red,
+              ),
+            );
+          }
+          return;
+        }
+        
         String jsonString = await file.readAsString();
         json.decode(jsonString); // Parse to validate JSON format
 
