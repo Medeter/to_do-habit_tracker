@@ -1,0 +1,4 @@
+// This is a placeholder file. 
+// Please save the attached "To-Do & Habit Tracker.png" image 
+// as "app_icon.png" in this assets folder.
+// The image should be 1024x1024 pixels in PNG format.
